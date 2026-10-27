@@ -1,9 +1,9 @@
 import ProductCard from "./ProductCard";
 import { getProductKey } from "../api/products";
 
-export default function ProductGrid({ products, wishlist, onToggleWish, onAddToCart }) {
+export default function ProductGrid({ products, wishlist, onToggleWish, onAddToCart, size = "large" }) {
   return (
-    <div className="grid">
+    <div className={size === "small" ? "grid grid--small" : "grid"}>
       {products.map((p) => {
         const key = getProductKey(p);
         return (

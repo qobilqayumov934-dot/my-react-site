@@ -1,14 +1,71 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Icon } from "../components/Icon";
+import ProductGrid from "../components/ProductGrid";
 import Stars from "../components/Stars";
 import Status from "../components/Status";
 import { getProductKey } from "../api/products";
 import { OPTIONS_BY_CATEGORY } from "../data/data";
 
+const RELATED_COUNT = 8;
+
+// В новом API категории записаны строчными буквами (electronic, clothing),
+// а OPTIONS_BY_CATEGORY использует старые названия. Приводим их к одному виду.
+const CATEGORY_ALIASES = {
+  electronic: "Electronics",
+  electronics: "Electronics",
+  clothing: "Fashion",
+  fashion: "Fashion",
+  sports: "Sports",
+  gaming: "Gaming",
+  toys: "Toys",
+};
+
+const words = (value) =>
+  String(value ?? "")
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter((word) => word.length > 2);
+
+// Насколько товар-кандидат похож на текущий:
+// главный вес — та же категория, затем общие слова в названии,
+// затем близость цены и рейтинга.
+function similarityScore(current, candidate) {
+  const currentCategory = String(current.category ?? "").toLowerCase();
+  const candidateCategory = String(candidate.category ?? "").toLowerCase();
+  let score = currentCategory && currentCategory === candidateCategory ? 1000 : 0;
+
+  const currentWords = new Set(words(current.name));
+  score += words(candidate.name).filter((word) => currentWords.has(word)).length * 100;
+
+  const priceA = Number(current.price) || 0;
+  const priceB = Number(candidate.price) || 0;
+  score += 50 * (1 - Math.abs(priceA - priceB) / Math.max(priceA, priceB, 1));
+
+  const ratingA = Number(current.rating) || 0;
+  const ratingB = Number(candidate.rating) || 0;
+  score += 20 * (1 - Math.abs(ratingA - ratingB) / 5);
+
+  return score;
+}
+
+// Берём не больше RELATED_COUNT товаров, самых похожих на текущий.
+function getRelatedProducts(products, current, limit = RELATED_COUNT) {
+  const currentKey = getProductKey(current);
+
+  return products
+    .filter((product) => getProductKey(product) !== currentKey)
+    .map((product) => ({ product, score: similarityScore(current, product) }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((item) => item.product);
+}
+
 function Details({ product, wished, onToggleWish, onAddToCart }) {
   const images = product.images?.length ? product.images : [product.image].filter(Boolean);
-  const options = OPTIONS_BY_CATEGORY[product.category] ?? {};
+  const categoryKey =
+    CATEGORY_ALIASES[String(product.category ?? "").toLowerCase()] ?? product.category;
+  const options = OPTIONS_BY_CATEGORY[categoryKey] ?? {};
   const colors = product.colors ?? options.colors ?? [];
   const sizes = product.sizes ?? options.sizes ?? [];
   const description =
@@ -184,14 +241,34 @@ export default function ProductDetailsPage({ products, status, wishlist, onToggl
     );
   }
 
+  const related = getRelatedProducts(products, product);
+
   // key={id}: при переходе на другой товар состояние (цвет, размер, количество) сбрасывается
   return (
-    <Details
-      key={id}
-      product={product}
-      wished={wishlist.includes(id)}
-      onToggleWish={onToggleWish}
-      onAddToCart={onAddToCart}
-    />
+    <>
+      <Details
+        key={id}
+        product={product}
+        wished={wishlist.includes(id)}
+        onToggleWish={onToggleWish}
+        onAddToCart={onAddToCart}
+      />
+
+      {related.length > 0 && (
+        <section className="related" aria-label="Related products">
+          <div className="tag">
+            <span className="tag__bar" />
+            <span className="tag__text">Related Items</span>
+          </div>
+
+          <ProductGrid
+            products={related}
+            wishlist={wishlist}
+            onToggleWish={onToggleWish}
+            onAddToCart={onAddToCart}
+          />
+        </section>
+      )}
+    </>
   );
 }

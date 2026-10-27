@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { Icon } from "./Icon";
 
 // Иконка пользователя с выпадающим меню (когда вход выполнен)
@@ -40,6 +41,9 @@ export default function AccountMenu({ user, onLogout }) {
         <div className="account__menu">
           <p className="account__label">Signed in as</p>
           <p className="account__name">{user.name}</p>
+          <Link to="/dashboard" className="account__link" onClick={() => setOpen(false)}>
+            Dashboard
+          </Link>
           <button
             type="button"
             className="btn-outline account__logout"

@@ -1,6 +1,21 @@
+// Сколько товаров показывать на главной, если ни у одного нет featured: true
+export const HOME_PRODUCTS_COUNT = 8;
+
+// Варианты сортировки на странице /shop (ключи обрабатывает utils/sort.js)
+export const SORT_OPTIONS = [
+  { value: "default", label: "Default" },
+  { value: "price-asc", label: "Price: Low to High" },
+  { value: "price-desc", label: "Price: High to Low" },
+  { value: "rating", label: "Top Rated" },
+  { value: "reviews", label: "Most Reviews" },
+  { value: "new", label: "Newest" },
+  { value: "name", label: "Name: A to Z" },
+];
+
 // Пункты меню. У тех, где есть `to`, — настоящая страница; остальные пока заглушки.
 export const NAV_LINKS = [
   { label: "Home", to: "/" },
+  { label: "Shop", to: "/shop" },
   { label: "Contact" },
   { label: "About" },
   { label: "Sign Up", to: "/signup", guestOnly: true }, // у вошедшего пользователя скрыт

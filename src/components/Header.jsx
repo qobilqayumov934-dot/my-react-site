@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Icon } from "./Icon";
 import AccountMenu from "./AccountMenu";
+import SearchBox from "./SearchBox";
 import { NAV_LINKS } from "../data/data";
 
-export default function Header({ wishlistCount, cartCount, user, onLogout }) {
+export default function Header({ wishlistCount, cartCount, user, onLogout, products, productsStatus }) {
   const [menuOpen, setMenuOpen] = useState(false); // бургер-меню на телефонах
   const closeMenu = () => setMenuOpen(false);
 
@@ -43,10 +44,7 @@ export default function Header({ wishlistCount, cartCount, user, onLogout }) {
         </nav>
 
         <div className="header__actions">
-          <label className="search">
-            <input type="text" placeholder="What are you looking for?" />
-            <Icon name="search" size={20} />
-          </label>
+          <SearchBox products={products} status={productsStatus} onNavigate={closeMenu} />
 
           <Link to="/wishlist" className="icon-btn" aria-label="Wishlist" onClick={closeMenu}>
             <Icon name="heart" size={26} />

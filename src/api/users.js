@@ -18,8 +18,8 @@ function toSafeUser(u) {
   };
 }
 
-async function fetchUsers() {
-  const res = await fetch(USERS_URL);
+async function fetchUsers(signal) {
+  const res = await fetch(USERS_URL, { signal });
   if (res.status === 404) return []; // MockAPI отвечает 404, когда записей нет
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const data = await res.json();
@@ -63,4 +63,19 @@ export async function registerUser({ name, username, email, phone_number, countr
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
   return { user: toSafeUser(await res.json()) };
+}
+
+// Список пользователей для панели управления. Пароли отбрасываем сразу.
+export async function listUsers(signal) {
+  const users = await fetchUsers(signal);
+  return users.map((u) => ({
+    id: u.id,
+    name: u.name,
+    username: u.username,
+    email: u.email,
+    phone_number: u.phone_number,
+    country: u.country,
+    isActive: Boolean(u.isActive),
+    createdAt: u.createdAt,
+  }));
 }

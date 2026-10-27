@@ -10,8 +10,8 @@ export default function LoginPage({ user, onLogin }) {
   const [formError, setFormError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  // Уже вошёл — на главную
-  if (user) return <Navigate to="/" replace />;
+  // Уже вошёл — в панель управления
+  if (user) return <Navigate to="/dashboard" replace />;
 
   const handleChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 

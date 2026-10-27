@@ -60,7 +60,7 @@ function Field({ label, error, children }) {
 
 const PHONE_RE = /^\+?[0-9\s()-]{7,20}$/;
 
-export default function CartPage({ status, cartLines, onSetQty, onRemove, onClear, user }) {
+export default function CartPage({ status, cartLines, onSetQty, onRemove, onClear, onOrderPlaced, user }) {
   // Если пользователь вошёл — заранее подставляем его имя и телефон
   const [form, setForm] = useState(() => ({
     ...EMPTY_FORM,
@@ -98,6 +98,7 @@ export default function CartPage({ status, cartLines, onSetQty, onRemove, onClea
 
     try {
       await sendOrderToTelegram({ orderNumber: number, customer: form, lines: cartLines, total });
+      onOrderPlaced?.({ number, customer: form, lines: cartLines, total }); // попадёт в раздел Orders панели
       setOrderNumber(number);
       setForm(EMPTY_FORM);
       onClear();

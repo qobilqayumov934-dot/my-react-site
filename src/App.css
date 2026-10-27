@@ -551,6 +551,11 @@ img {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr 1fr 1.2fr;
   gap: 40px 24px;
+  align-items: start;
+}
+
+.footer__col {
+  min-width: 0;
 }
 
 .footer__logo {
@@ -1466,6 +1471,565 @@ img {
   }
 }
 
+/* ============ Панель управления (Dashboard) ============ */
+/* Цвета панели — в переменных; «Change mode» просто подменяет их */
+.dash {
+  --d-bg: #fff;
+  --d-surface: #fff;
+  --d-text: #1f1f29;
+  --d-muted: #8d8d9a;
+  --d-line: #e8e8ef;
+  --d-row: #f7f7fb;
+  --d-btn: #ececf1;
+  --d-green: #0fb83e;
+  --d-red: #f0405a;
+
+  display: flex;
+  min-height: 100vh;
+  color: var(--d-text);
+  background: var(--d-bg);
+}
+
+.dash--dark {
+  --d-bg: #1a1a21;
+  --d-surface: #23232c;
+  --d-text: #ececf3;
+  --d-muted: #9393a4;
+  --d-line: #34343f;
+  --d-row: #20202a;
+  --d-btn: #34343f;
+  --d-green: #2bd668;
+  --d-red: #ff6b81;
+}
+
+/* ---- сайдбар ---- */
+.dash__sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  width: 240px;
+  height: 100vh;
+  padding: 24px 0;
+  overflow-y: auto;
+  color: #9b9baa;
+  background: #34343f;
+}
+
+.dash:not(.is-sidebar-open) .dash__sidebar {
+  display: none;
+}
+
+.dash__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px 28px;
+  font-weight: 700;
+  color: #8c8c9c;
+}
+
+.dash__brand svg {
+  color: #d9a7ff;
+}
+
+.dash__nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.dash__bottom {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+}
+
+.dash__link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 24px;
+  font-size: 13px;
+  text-align: left;
+  color: #9b9baa;
+  border-left: 2px solid transparent;
+  transition: background 0.15s, color 0.15s;
+}
+
+.dash__link:hover {
+  color: #fff;
+}
+
+.dash__link.is-active {
+  color: #fff;
+  background: #43434f;
+  border-left-color: #fff;
+}
+
+.dash__backdrop {
+  display: none;
+}
+
+/* ---- верхняя панель и контент ---- */
+.dash__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.dash__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 40px;
+}
+
+.dash__burger {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-left: -8px;
+}
+
+.dash__user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dash__user span:first-child {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dash__content {
+  padding: 16px 40px 60px;
+}
+
+.dash__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.dash__title {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.dash__subtitle {
+  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.dash__actions {
+  display: flex;
+  gap: 12px;
+}
+
+.dash__status {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--d-muted);
+}
+
+.dash__status--error {
+  color: var(--d-red);
+}
+
+.dash-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--d-text);
+  background: var(--d-btn);
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.dash-btn--green {
+  color: #fff;
+  background: #10c443;
+}
+
+.dash-btn--green:hover {
+  background: #0daa39;
+}
+
+.dash-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---- карточки со статистикой ---- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--d-surface);
+  border: 1px solid var(--d-line);
+  border-radius: 8px;
+}
+
+.stat__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: #7b5cff;
+  background: rgba(123, 92, 255, 0.12);
+  border-radius: 50%;
+}
+
+.stat__label {
+  font-size: 12px;
+  color: var(--d-muted);
+}
+
+.stat__value {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* ---- таблицы ---- */
+.dash-scroll {
+  overflow-x: auto;
+}
+
+.dash-table {
+  width: 100%;
+  min-width: 640px;
+  font-size: 12px;
+  border-collapse: collapse;
+}
+
+.dash-table th {
+  padding: 12px 16px;
+  font-weight: 400;
+  text-align: left;
+  white-space: nowrap;
+  color: var(--d-muted);
+}
+
+.dash-table td {
+  padding: 12px 16px;
+  vertical-align: middle;
+}
+
+.dash-table th:first-child,
+.dash-table td:first-child {
+  padding-left: 20px;
+}
+
+/* даты, статусы и телефоны не переносим на несколько строк */
+.dash-table td:not(:first-child) {
+  white-space: nowrap;
+}
+
+.dash-table tbody tr:nth-child(odd) {
+  background: var(--d-row);
+}
+
+/* список со строками-разделителями (раздел Orders) */
+.dash-table--list tbody tr:nth-child(odd) {
+  background: transparent;
+}
+
+.dash-table--list tbody tr {
+  border-top: 1px solid var(--d-line);
+}
+
+.dash-table--list td {
+  padding-block: 16px;
+}
+
+.cell-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cell-main {
+  font-weight: 500;
+}
+
+.cell-sub {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--d-muted);
+}
+
+.t-green {
+  font-weight: 500;
+  color: var(--d-green);
+}
+
+.t-red {
+  font-weight: 500;
+  color: var(--d-red);
+}
+
+.avatar {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 50%;
+}
+
+.thumb-sm {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  background: #f5f5f5;
+  border-radius: 6px;
+}
+
+.thumb-sm img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.tag-new {
+  margin-left: 8px;
+  padding: 1px 6px;
+  font-size: 10px;
+  color: #000;
+  background: #00ff66;
+  border-radius: 3px;
+}
+
+.dash-card {
+  background: var(--d-surface);
+  border: 1px solid var(--d-line);
+  border-radius: 6px;
+}
+
+.dash-card__title {
+  padding: 20px 20px 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pill {
+  display: inline-block;
+  min-width: 68px;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+  border-radius: 999px;
+}
+
+.pill--new {
+  color: #3a2d00;
+  background: #ffc20e;
+}
+
+.pill--done {
+  background: #17b67f;
+}
+
+.pill--cancelled {
+  background: #ff3b4e;
+}
+
+.icon-action {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  color: var(--d-muted);
+  border-radius: 50%;
+  transition: color 0.15s, background 0.15s;
+}
+
+.icon-action:hover {
+  color: var(--d-red);
+  background: var(--d-row);
+}
+
+/* ---- окно «Add product» ---- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal__card {
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(100vh - 32px);
+  padding: 24px;
+  overflow-y: auto;
+  color: var(--d-text);
+  background: var(--d-surface);
+  border-radius: 8px;
+}
+
+.modal__title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.modal__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modal__check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.dash .field input {
+  color: var(--d-text);
+  background: var(--d-row);
+  border-color: var(--d-line);
+}
+
+.dash .field--error input {
+  border-color: var(--red);
+}
+
+/* ссылка «Dashboard» в выпадающем меню магазина */
+.account__link {
+  display: block;
+  margin-bottom: 8px;
+  padding: 10px 16px;
+  font-weight: 500;
+  text-align: center;
+  background: var(--grey);
+  border-radius: 4px;
+}
+
+.account__link:hover {
+  color: var(--red);
+}
+
+@media (max-width: 1100px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* телефон: сайдбар выезжает поверх страницы */
+@media (max-width: 860px) {
+  .dash__sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+  }
+
+  .dash:not(.is-sidebar-open) .dash__sidebar {
+    display: flex;
+  }
+
+  .dash.is-sidebar-open .dash__sidebar {
+    transform: none;
+  }
+
+  .dash.is-sidebar-open .dash__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: block;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .dash__topbar {
+    padding: 0 16px;
+  }
+
+  .dash__content {
+    padding: 8px 16px 40px;
+  }
+
+  .dash__title {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .stat {
+    padding: 14px;
+  }
+
+  .stat__icon {
+    display: none;
+  }
+
+  .stat__value {
+    font-size: 20px;
+  }
+
+  .dash__user span:first-child {
+    display: none;
+  }
+
+  .modal__row {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ================================================================== */
 /*  АДАПТИВ (от больших экранов к маленьким)                           */
 /* ================================================================== */
@@ -1520,7 +2084,7 @@ img {
   }
 
   .footer__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -1679,12 +2243,49 @@ img {
 
   .features {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 14px;
     padding: 60px 0;
   }
 
+  /* на телефоне — компактные «мини-карточки»: иконка слева, текст справа */
+  .feature {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: 16px;
+    align-items: center;
+    padding: 16px;
+    text-align: left;
+    background: var(--grey);
+    border-radius: 10px;
+  }
+
+  .feature__icon {
+    grid-row: 1 / 3;
+    width: 64px;
+    height: 64px;
+  }
+
+  .feature__icon-inner {
+    width: 46px;
+    height: 46px;
+  }
+
+  .feature__icon-inner svg {
+    width: 24px;
+    height: 24px;
+  }
+
   .feature__title {
-    font-size: 18px;
+    margin-top: 0;
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .feature__text {
+    margin-top: 4px;
+    font-size: 13px;
+    line-height: 1.45;
   }
 
   .breadcrumb,
@@ -1728,7 +2329,35 @@ img {
   }
 
   .footer__grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px 24px;
+  }
+
+  /* «Download App» занимает всю ширину, чтобы QR и магазины не сжимались */
+  .footer__col:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .footer__logo {
+    margin-bottom: 16px;
+    font-size: 22px;
+  }
+
+  .footer__title {
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+
+  .footer__logo + .footer__title {
+    margin-bottom: 16px;
+  }
+
+  .footer__col li {
+    max-width: 240px;
+  }
+
+  .footer__col li + li {
+    margin-top: 12px;
   }
 
   .footer__copy {
@@ -1866,8 +2495,86 @@ img {
     padding: 16px 12px;
   }
 
+  .feature {
+    grid-template-columns: 56px minmax(0, 1fr);
+    column-gap: 12px;
+    padding: 14px;
+  }
+
+  .feature__icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .feature__icon-inner {
+    width: 42px;
+    height: 42px;
+  }
+
+  .footer {
+    padding-top: 48px;
+  }
+
   .footer__grid {
     grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .footer__col:last-child {
+    grid-column: auto;
+  }
+
+  .footer__col p,
+  .footer__col li {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .footer__col li {
+    max-width: none;
+  }
+
+  .footer__col li + li {
+    margin-top: 10px;
+  }
+
+  .footer__logo {
+    margin-bottom: 12px;
+  }
+
+  .footer__title {
+    margin-bottom: 14px;
+    font-size: 17px;
+  }
+
+  .footer__logo + .footer__title {
+    margin-bottom: 14px;
+  }
+
+  .subscribe {
+    max-width: none;
+    margin-top: 14px;
+    padding: 10px 14px;
+  }
+
+  .apps {
+    gap: 12px;
+  }
+
+  .qr {
+    width: 72px;
+    height: 72px;
+  }
+
+  .socials {
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .footer__copy {
+    margin-top: 32px;
+    padding: 14px 0;
+    font-size: 13px;
   }
 }
 
@@ -1875,5 +2582,374 @@ img {
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
+  }
+}
+
+/* ============ Поиск с подсказками и кликабельные строки ============ */
+/* Этот блок нужно добавить В САМЫЙ КОНЕЦ App.css */
+.search-box {
+  position: relative;
+  width: 243px;
+}
+
+.search {
+  width: 100%;
+}
+
+.search-results {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 60;
+  width: 380px;
+  max-width: calc(100vw - 24px);
+  max-height: 70vh;
+  padding: 8px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.14);
+}
+
+.search-results__list {
+  display: grid;
+  gap: 4px;
+}
+
+/* карточка-подсказка: как строка товара в панели, но компактнее */
+.result {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.12s;
+}
+
+.result:hover,
+.result.is-active {
+  background: var(--grey);
+}
+
+.result__thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
+  background: var(--grey);
+  border-radius: 8px;
+  transition: background 0.12s;
+}
+
+.result:hover .result__thumb,
+.result.is-active .result__thumb {
+  background: #fff;
+}
+
+.result__thumb img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+
+.result__body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.result__name {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result__meta {
+  overflow: hidden;
+  font-size: 12px;
+  color: var(--muted);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result__price {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--red);
+}
+
+.search-results__msg {
+  padding: 16px 12px;
+  font-size: 13px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.search-results__more {
+  padding: 8px 12px 4px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* строки таблицы товаров в панели ведут на страницу товара */
+.dash-table tbody tr.is-clickable {
+  cursor: pointer;
+  transition: background 0.12s;
+}
+
+.dash-table tbody tr.is-clickable:hover {
+  background: var(--d-btn);
+}
+
+.cell-link:hover {
+  color: var(--d-green);
+}
+
+@media (max-width: 1024px) {
+  .search-box {
+    width: 200px;
+  }
+}
+
+@media (max-width: 860px) {
+  /* на телефоне поиск занимает всю строку под логотипом */
+  .search-box {
+    order: 4;
+    flex: 1 0 100%;
+    width: 100%;
+  }
+
+  .search-results {
+    right: 0;
+    left: 0;
+    width: auto;
+    max-width: none;
+  }
+}
+
+/* ============ Страница Shop: сортировка и размер карточек ============ */
+/* Этот блок нужно добавить В САМЫЙ КОНЕЦ App.css */
+.shop {
+  padding: 80px 0 140px;
+}
+
+.shop__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 32px 0 40px;
+}
+
+.shop__count {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.shop__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.shop__sort {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.shop__sort select {
+  padding: 10px 38px 10px 14px;
+  font: inherit;
+  font-size: 14px;
+  color: inherit;
+  cursor: pointer;
+  background: var(--grey)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")
+    no-repeat right 12px center;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  appearance: none;
+}
+
+.shop__view {
+  display: flex;
+  gap: 4px;
+}
+
+.shop__view button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--muted);
+  background: var(--grey);
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.shop__view button.is-active {
+  color: #fff;
+  background: var(--red);
+}
+
+/* мелкие карточки: 6 в ряд на компьютере */
+.grid--small {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 40px 16px;
+}
+
+.grid--small .card__media {
+  height: 170px;
+}
+
+.grid--small .card__image-link {
+  padding: 14px;
+}
+
+.grid--small .card__badge {
+  top: 8px;
+  left: 8px;
+  padding: 2px 8px;
+  font-size: 11px;
+}
+
+.grid--small .card__tools {
+  top: 8px;
+  right: 8px;
+  gap: 6px;
+}
+
+.grid--small .tool {
+  width: 30px;
+  height: 30px;
+}
+
+.grid--small .card__add {
+  height: 36px;
+  font-size: 13px;
+}
+
+.grid--small .card__name {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.grid--small .card__meta {
+  gap: 4px 8px;
+}
+
+.grid--small .card__price {
+  font-size: 14px;
+}
+
+.grid--small .card__reviews {
+  font-size: 12px;
+}
+
+.grid--small .star,
+.grid--small .star svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* в шапке теперь 5 пунктов меню — на узких ноутбуках сжимаем промежутки */
+@media (max-width: 1100px) {
+  .nav {
+    gap: 20px;
+  }
+
+  .grid--small {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .search-box {
+    width: 170px;
+  }
+}
+
+@media (max-width: 900px) {
+  .grid--small {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .shop {
+    padding: 60px 0 100px;
+  }
+
+  /* на телефоне поле поиска снова занимает всю строку */
+  .search-box {
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .grid--small {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px 12px;
+  }
+}
+
+@media (max-width: 520px) {
+  .shop {
+    padding: 40px 0 80px;
+  }
+
+  .shop__toolbar {
+    margin: 24px 0 32px;
+  }
+
+  .shop__controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .grid--small {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ============ Related items ============ */
+.related {
+  padding-bottom: 140px;
+}
+
+.related .tag {
+  margin-bottom: 60px;
+}
+
+@media (max-width: 860px) {
+  .related {
+    padding-bottom: 100px;
+  }
+
+  .related .tag {
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 520px) {
+  .related {
+    padding-bottom: 80px;
+  }
+
+  .related .tag {
+    margin-bottom: 32px;
   }
 }
